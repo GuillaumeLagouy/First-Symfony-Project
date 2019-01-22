@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @ORM\Entity
@@ -24,7 +25,15 @@ class Joke
     /**
      * @ORM\Column(type="datetime")
      */
-    private $publication_date;
+    private $publicationDate;
+
+    /**
+     * Joke constructor. but it's not a joke
+     */
+    public function __construct()
+    {
+        $this->publicationDate = new \DateTime();
+    }
 
     /**
      * @return mixed
@@ -63,15 +72,15 @@ class Joke
      */
     public function getPublicationDate()
     {
-        return $this->publication_date;
+        return $this->publicationDate;
     }
 
     /**
-     * @param mixed $publication_date
+     * @param mixed $publicationDate
      */
-    public function setPublicationDate($publication_date): void
+    public function setPublicationDate($publicationDate): void
     {
-        $this->publication_date = $publication_date;
+        $this->publicationDate = $publicationDate;
     }
 
 

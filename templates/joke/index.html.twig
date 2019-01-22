@@ -3,18 +3,36 @@
 {% block title %}Hello JokeController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/guillaume/Documents/GOBELINS/Symfony/my-project/src/Controller/JokeController.php'|file_link(0) }}">src/Controller/JokeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/guillaume/Documents/GOBELINS/Symfony/my-project/templates/joke/index.html.twig'|file_link(0) }}">templates/joke/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col p-3" style="background-color: aliceblue; border-radius: 10px">
+                        <label for="{{ form.content.vars.id }}">
+                            🤡 Your <span style="font-size: 10px">bad</span> joke :
+                        </label>
+                        {{ form_row(form.content) }}
+                        {{ form_row(form.save) }}
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+            <div class="col" style="overflow-x: hidden; height: 95vh;">
+                <section>
+                    {% for joke in jokes %}
+                        <article class="card m-3">
+                            <form class="row justify-content-end m-1" action="{{ path("delete", {'id': joke.id}) }}">
+                                <button class="btn"><i class="fas fa-times" style="color: grey"></i></button>
+                            </form>
+                            <div class="card-body">
+                                <p>{{ joke.content }}</p>
+                                <p>{{ joke.publicationDate|date('m/d/Y H:i:s') }}</p>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </section>
+            </div>
+        </div>
+    </div>
 {% endblock %}
