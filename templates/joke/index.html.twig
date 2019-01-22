@@ -7,8 +7,8 @@
         <div class="row">
             <div class="col">
                 {{ form_start(form) }}
-                <div class="row">
-                    <div class="col p-3" style="background-color: aliceblue; border-radius: 10px">
+                <div class="row m-3">
+                    <div class="col p-3 shadow-sm" style="background-color: aliceblue; border-radius: 10px">
                         <label for="{{ form.content.vars.id }}">
                             🤡 Your <span style="font-size: 10px">bad</span> joke :
                         </label>
@@ -21,13 +21,22 @@
             <div class="col" style="overflow-x: hidden; height: 95vh;">
                 <section>
                     {% for joke in jokes %}
-                        <article class="card m-3">
-                            <form class="row justify-content-end m-1" action="{{ path("delete", {'id': joke.id}) }}">
-                                <button class="btn"><i class="fas fa-times" style="color: grey"></i></button>
-                            </form>
+                        <article class="card m-3 shadow-sm">
+                            <div class="card-header bg-primary">
+                                <div class="row justify-content-end">
+                                    <a class="ml-2 mr-2 text-white" href="{{ path("joke", {'id': joke.id}) }}">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+                                    <a class="text-white" href="{{ path("delete", {'id': joke.id}) }}">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                </div>
+                            </div>
                             <div class="card-body">
                                 <p>{{ joke.content }}</p>
-                                <p>{{ joke.publicationDate|date('m/d/Y H:i:s') }}</p>
+                            </div>
+                            <div class="card-footer text-muted font-weight-light">
+                                {{ joke.publicationDate|date('m/d/Y H:i:s') }}
                             </div>
                         </article>
                     {% endfor %}

@@ -18,7 +18,16 @@ class JokeController extends AbstractController
      */
     public function index(Request $request)
     {
-        $joke = new Joke();
+        $repository = $this->getDoctrine()->getRepository(Joke::class);
+
+        //Get selected joke
+        $jokeId = $request->query->get('id');
+        $joke = $repository->find((int) $jokeId);
+
+        if(empty($joke)){
+            $joke = new Joke();
+        }
+
         $form = $this->createForm(JokeType::class, $joke);
 
         $form->handleRequest($request);
@@ -34,8 +43,7 @@ class JokeController extends AbstractController
         }
 
         // Get all jokes
-        $repository = $this->getDoctrine()->getRepository(Joke::class);
-        $jokes = $repository->findBy([], ["id" => "DESC"]);
+        $jokes = $repository->findBy([], ['id' => "DESC"]);
 
         return $this->render('joke/index.html.twig', [
             'form' => $form->createView(),
@@ -45,11 +53,25 @@ class JokeController extends AbstractController
 
     /**
      * @Route("/joke/delete/{id}", name="delete")
+     * @param Joke $joke
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function delete(Request $request, Joke $joke){
+    public function delete(Joke $joke){
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($joke);
         $entityManager->flush();
+
+        return $this->redirectToRoute('joke');
+    }
+
+    /**
+     * @Route("/joke/edit/{id}", name="edit")
+     * @param Joke $joke
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function edit(Joke $joke){
+
+
 
         return $this->redirectToRoute('joke');
     }
