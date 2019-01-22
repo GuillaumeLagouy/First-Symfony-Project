@@ -63,16 +63,4 @@ class JokeController extends AbstractController
 
         return $this->redirectToRoute('joke');
     }
-
-    /**
-     * @Route("/joke/edit/{id}", name="edit")
-     * @param Joke $joke
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function edit(Joke $joke){
-
-
-
-        return $this->redirectToRoute('joke');
-    }
 }
